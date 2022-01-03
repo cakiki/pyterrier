@@ -126,11 +126,24 @@ def _run_and_evaluate(
         pbar = None,
         save_mode = None,
         save_file = None,
+        save_fn = 'trec',
         perquery : bool = False,
         batch_size = None,
         backfill_qids : Sequence[str] = None):
     
-    from .io import read_results, write_results
+    from . import io
+    
+    if save_fn == 'trec':        
+        read_results = io.read_results
+        write_results = io.write_results
+    elif save_fn == 'csv':
+        read_results = lambda filename: pd.read_csv(filename)
+        write_results = lambda df, filename, append=True: df.to_csv(filename, mode='a' if append else 'w')
+    elif save_fn == 'pickle':
+        #TODO how to save multiple times, but load once. should batch mode saving save to multiple files then have a merge fn?
+        raise NotImplementedError()
+    
+
 
     if pbar is None:
         from . import tqdm
@@ -268,6 +281,7 @@ def Experiment(
         verbose : bool = False,
         save_dir : str = None,
         save_mode : str = 'reuse',
+        save_fn : str = 'trec',
         **kwargs):
     """
     Allows easy comparison of multiple retrieval transformer pipelines using a common set of topics, and
@@ -454,6 +468,7 @@ def Experiment(
                 backfill_qids=all_topic_qids if perquery else None,
                 save_file=save_file,
                 save_mode=save_mode,
+                save_fn=save_fn,
                 pbar=pbar)
 
             if baseline is not None:
