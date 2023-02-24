@@ -337,7 +337,7 @@ class TestOperators(BaseTestCase):
         
         self.assertEqual(2, len(mock12a.models))
         self.assertEqual(2, len(mock12a.models))
-        pyterrier.batchretrieve.setup_rewrites()
+        pyterrier.terrier.retrieve.setup_rewrites()
 
         mock123_simple = mock123a.compile()
         self.assertIsNotNone(mock123_simple)

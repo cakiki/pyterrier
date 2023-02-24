@@ -155,8 +155,8 @@ def scorer(*args, **kwargs) -> Transformer:
         textscorerTfIdf = pt.text.scorer(body_attr="text", wmodel="TF_IDF", background_index=index)
 
     """
-    import pyterrier as pt
-    return pt.batchretrieve.TextScorer(*args, **kwargs)
+    import pyterrier.terrier.retrieve
+    return pyterrier.terrier.retrieve.TextScorer(*args, **kwargs)
 
 def sliding( text_attr='body', length=150, stride=75, join=' ', prepend_attr='title', **kwargs) -> Transformer:
     r"""

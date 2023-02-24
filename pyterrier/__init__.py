@@ -143,16 +143,18 @@ def init(version=None, mem=None, packages=[], jvm_opts=[], redirect_io=True, log
     properties = autoclass('java.util.Properties')()
     ApplicationSetup = autoclass('org.terrier.utility.ApplicationSetup')
 
-    from .batchretrieve import BatchRetrieve, FeaturesBatchRetrieve
-    from .utils import Utils
-    from .datasets import get_dataset, find_datasets, list_datasets
-    from .index import Indexer, FilesIndexer, TRECCollectionIndexer, DFIndexer, DFIndexUtils, IterDictIndexer, IndexingType, TerrierStemmer, TerrierStopwords, TerrierTokeniser
-    from .pipelines import Experiment, GridScan, GridSearch, KFoldGridSearch
-
     # Make imports global
     globals()["autoclass"] = autoclass
     globals()["cast"] = cast
     globals()["ApplicationSetup"] = ApplicationSetup
+
+    from .utils import Utils
+    from .datasets import get_dataset, find_datasets, list_datasets
+    from .index import Indexer, FilesIndexer, TRECCollectionIndexer, DFIndexer, DFIndexUtils, IterDictIndexer, IndexingType, TerrierStemmer, TerrierStopwords, TerrierTokeniser
+    from .pipelines import Experiment, GridScan, GridSearch, KFoldGridSearch
+    from .terrier.retrieve import BatchRetrieve, FeaturesBatchRetrieve
+
+
 
     # apply is an object, not a module, as it also has __get_attr__() implemented
     from .apply import _apply

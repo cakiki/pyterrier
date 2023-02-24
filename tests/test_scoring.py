@@ -39,7 +39,8 @@ class TestScoring(TempDirTestCase):
         output1 = br1(input)
         self.assertTrue( "body" in output1.columns )
         input2 = output1[["qid", "query", "docno", "body"]]
-        br2 = pt.batchretrieve.TextScorer(background_index=index, wmodel=wmodel, verbose=True)
+        from pyterrier.terrier.retrieve import TextScorer
+        br2 = TextScorer(background_index=index, wmodel=wmodel, verbose=True)
         output2 = br2(input2)
         self.assertTrue( "score" in output2.columns )
 
@@ -52,7 +53,7 @@ class TestScoring(TempDirTestCase):
 
     def test_scoring_manual_empty(self):
         input = pd.DataFrame([["q1", "fox", "d1", ""]], columns=["qid", "query", "docno", "body"])
-        from pyterrier.batchretrieve import TextScorer
+        from pyterrier.terrier.retrieve import TextScorer
         scorer = TextScorer(wmodel="Tf")
         rtr = scorer(input)
         self.assertEqual(1, len(rtr))
@@ -62,7 +63,7 @@ class TestScoring(TempDirTestCase):
 
     def test_scoring_manual(self):
         input = pd.DataFrame([["q1", "fox", "d1", "all the fox were fox"]], columns=["qid", "query", "docno", "body"])
-        from pyterrier.batchretrieve import TextScorer
+        from pyterrier.terrier.retrieve import TextScorer
         scorer = TextScorer(wmodel="Tf")
         rtr = scorer(input)
         self.assertEqual(1, len(rtr))
@@ -78,7 +79,7 @@ class TestScoring(TempDirTestCase):
 
     def test_scoring_manual_background(self):
         input = pd.DataFrame([["q1", "fox", "d1", "all the fox were fox"]], columns=["qid", "query", "docno", "body"])
-        from pyterrier.batchretrieve import TextScorer
+        from pyterrier.terrier.retrieve import TextScorer
         scorer = TextScorer(wmodel="Tf", background_index=pt.get_dataset("vaswani").get_index())
         rtr = scorer(input)
         self.assertEqual(1, len(rtr))
@@ -94,8 +95,8 @@ class TestScoring(TempDirTestCase):
         
     def test_scoring_qe(self):
         input = pd.DataFrame([["q1", "fox", "d1", "all the fox were fox"]], columns=["qid", "query", "docno", "body"])
-        from pyterrier.batchretrieve import TextScorer
-        scorer = pt.batchretrieve.TextIndexProcessor(pt.rewrite.Bo1QueryExpansion, takes="docs", returns="queries")
+        from pyterrier.terrier.retrieve import TextScorer
+        scorer = pt.terrier.retrieve.TextIndexProcessor(pt.rewrite.Bo1QueryExpansion, takes="docs", returns="queries")
         rtr = scorer(input)
         self.assertTrue("qid" in rtr.columns)
         self.assertTrue("query" in rtr.columns)

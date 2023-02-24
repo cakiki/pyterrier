@@ -108,7 +108,7 @@ for the documents, and these are then scored.
 Optionally, an index-like object can be specified as the `background_index` kwarg, which will be used for
 the collection statistics (e.g. term frequencies, document lengths etc. 
 
-.. autoclass:: pyterrier.batchretrieve.TextScorer
+.. autoclass:: pyterrier.TextScorer
 
 Non-English Retrieval
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
